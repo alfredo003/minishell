@@ -9,7 +9,7 @@ PRINTF_DIR = ./libs/ft_printf
 LIBFT = $(LIBFT_DIR)/libft.a
 PRINTF = $(PRINTF_DIR)/libftprintf.a
 
-SRCS = ./srcs/minishell.c
+SRCS = ./src/minishell.c
 
 OBJS = $(SRCS:.c=.o)
 

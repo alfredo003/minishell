@@ -11,11 +11,11 @@ void	execute_external_command(char **args)
 	if (pid == 0)  // Processo filho
 	{
 		if (execve(args[0], args, NULL) == -1) // Executa o comando com o ambiente especificado
-			perror("my_shell");
+			perror("mini_shell");
 		exit(EXIT_FAILURE); // Sai se execve falhar
 	}
 	else if (pid < 0)  // Erro ao criar o processo filho
-		perror("my_shell");
+		perror("mini_shell");
 	else  // Processo pai
 		wait(&status); // Espera o processo filho terminar
 }

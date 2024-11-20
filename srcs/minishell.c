@@ -1,22 +1,18 @@
 #include "minishell.h"
 
-int	main(void)
+int	main(int ac, char **argv, char **env)
 {
-	char	*input;
+	(void)ac;
+	(void)argv;
+	t_shell	shell;
 
-	//signal(SIGINT, handle_signal);
-	//signal(SIGQUIT, SIG_IGN);
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (input == NULL)
-			break ;
-		if (input[0] != '\0')
-		{
-			add_history(input);
-			execute_command(input); 
-		}
-		free(input);
-	}
-	return EXIT_SUCCESS;
+	//reset_fds(&mini);
+	/*str_dup_env(env, &mini, 0);
+	mini.last_return = 0;
+	mini.exit_status = 0;
+	mini.no_exec = 0;
+	mini.tokens = NULL;
+	handle_signals();*/
+	main_loop(&shell);
+	return (shell.last_return);
 }

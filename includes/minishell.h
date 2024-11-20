@@ -10,8 +10,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-void	cd_command(char **args);
-void	pwd_command(void);
-void	export_command(char **args);
+void execute_command(char *input);
 
 #endif

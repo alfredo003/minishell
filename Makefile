@@ -7,19 +7,14 @@ LIBFT_DIR = ./libs/libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-<<<<<<< HEAD
-SRCS = ./src/minishell.c
-=======
 SRCS =	./srcs/minishell.c	\
-	./srcs/internal_commands.c
->>>>>>> diogo
+		./srcs/execute_command.c 
 
 OBJS = $(SRCS:.c=.o)
 
 $(NAME):	$(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
-	@sleep 1
-	clear
+	@clear
 
 all:	$(NAME)
 

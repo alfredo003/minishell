@@ -8,9 +8,10 @@ LIBFT_DIR = ./libs/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS =	./srcs/minishell.c	\
-		./srcs/execute_command.c \
 		./srcs/utils/str_dup.c \
-		./srcs/utils/free_memory.c
+		./srcs/utils/free_memory.c \
+		./srcs/utils/readline.c \
+		./srcs/utils/inits.c
 
 OBJS = $(SRCS:.c=.o)
 

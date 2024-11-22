@@ -6,7 +6,7 @@ int	main(int ac, char **argv, char **env)
 	(void)argv;
 	t_shell	shell;
 
-	dup_env(env, &shell);
-
+	init_params(env, shell);
+	init_shell(&shell);
 	return (shell.last_return);
 }

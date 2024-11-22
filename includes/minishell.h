@@ -52,7 +52,9 @@ typedef struct s_shell
 	t_values	values;
 }	t_shell;
 
-void execute_command(char *input);
 void	dup_env(char **env, t_shell *shell);
-void	free_matrix(char **matrix);
-#endif
+void	free_matrix(char **matrix); 
+int	ft_readline(t_shell *shell, char **line);
+void	init_params(char **env, t_shell shell);
+void	init_shell(t_shell *shell);
+#endif 

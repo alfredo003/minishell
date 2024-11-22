@@ -53,5 +53,6 @@ typedef struct s_shell
 }	t_shell;
 
 void execute_command(char *input);
-
+void	dup_env(char **env, t_shell *shell);
+void	free_matrix(char **matrix);
 #endif

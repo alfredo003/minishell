@@ -12,3 +12,12 @@ void	free_matrix(char **matrix)
 	free(matrix);
 	matrix = NULL;
 }
+
+void	ft_free(void *ptr, int free_ptr)
+{
+	if (!free_ptr)
+		return ;
+	if (ptr)
+		free(ptr);
+	ptr = NULL;
+}

@@ -27,7 +27,6 @@ t_env	*add_env(char *env_name, char *env_value, int equal)
 	return (new);
 }
 
-
 void	dup_env(char **env, t_shell *shell)
 {
 	t_env	*current;

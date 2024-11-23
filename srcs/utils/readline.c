@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+void verify_cmd(t_shell *shell, char *line)
+{
+    char *str_heredoc;
+    int verify_heredoc;
+    t_token *token;
+
+    line = ft_strtrim(line, " ");
+    if (!line || !line[0])
+    {
+        ft_free(line, 1);
+        return ;
+    }
+    tokens = gettokens(shell, line);
+
+}
+
 int ft_readline(t_shell *shell, char **line)
 {
     *line = readline("minishell$ ");

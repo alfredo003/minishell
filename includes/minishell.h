@@ -57,4 +57,6 @@ void	free_matrix(char **matrix);
 int	ft_readline(t_shell *shell, char **line);
 void	init_params(char **env, t_shell shell);
 void	init_shell(t_shell *shell);
+void	ft_free(void *ptr, int free_ptr);
+t_token *gettokens(t_shell *shell, char *line);
 #endif 

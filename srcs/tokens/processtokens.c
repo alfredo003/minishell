@@ -1,30 +1,64 @@
 #include "minishell.h"
 
-void	process_tokens(t_shell *shell, char *line, t_token *tokens)
+int	ft_quote_is_closed(char *str, int i, int quote)
 {
-	int		i;
-	int		j;
-	int		verify;
-	char	*str;
-
-	i = 0;
-	j = 0;
-	while (line[i])
+	while (str[++i])
 	{
-		while (line[i] == ' ' || line[i] == '\t')
-            i++;
-		str = return_str(line, &i, &verify);
-		str = expand_variables(shell, str, 0);
-		if (str && str[0])
-		{
-			tokens[j].str = ft_strdup(str);
-			tokens[j].type = type_str(str, verify);
-			j++;
-		}
-		while (line[i] == ' ' || line[i] == '\t')
-            i++;
-		process_separator(line, &i, tokens, &j);
-		free_str_and_set_null(&str);
+		if (str[i] == quote)
+			return (1);
 	}
-	tokens[j].str = NULL;
+	return (0);
+}
+
+static void	return_str_auxilary(int *single_quote, int *double_quote,
+	char *ptr, int *i)
+{
+	if (ptr[*i] == 34)
+	{
+		if (*double_quote == 0)
+		{
+			if (ft_quote_is_closed(ptr, *i, 34))
+				*double_quote ^= 1;
+		}
+		else
+			*double_quote = 0;
+	}
+	else if (ptr[*i] == 39)
+	{
+		if (*single_quote == 0)
+		{
+			if (ft_quote_is_closed(ptr, *i, 39))
+				*single_quote ^= 1;
+		}
+		else
+			*single_quote = 0;
+	}
+}
+
+char	*get_substr(char *ptr, int *i, int *in_quotes)
+{
+	char	*str;
+	int		n;
+	int		single_quote;
+	int		double_quote;
+
+	str = (char *)malloc(sizeof(char) * 100000);
+	if (!str)
+		return (NULL);
+	n = 0;
+	single_quote = 0;
+	double_quote = 0;
+	*in_quotes = 0;
+	while (ptr[*i])
+	{
+		return_str_auxilary(&single_quote, &double_quote, ptr, i);
+		if (double_quote == 1 || single_quote == 1)
+			*in_quotes = 1;
+		if (double_quote == 0 && single_quote == 0
+			&& (is_separator(ptr[*i]) || ptr[*i] == ' '))
+			break ;
+		str[n++] = ptr[(*i)++];
+	}
+	str[n] = '\0';
+	return (str);
 }

@@ -18,6 +18,6 @@ void	init_shell(t_shell *shell)
         shell->tokens = NULL;
         if (!ft_readline(shell, &line))
             break ;
-        //waitpid();
+        verify_cmd(shell, line);
     }
 }

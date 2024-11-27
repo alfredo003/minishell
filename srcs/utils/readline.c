@@ -14,6 +14,9 @@ void verify_line(t_shell *shell, char *line)
     }
     tokens = gettokens(shell, line);
     str_heredoc = NULL;
+    verif_heredoc = verifying_heredoc(shell, tokens, &str_heredoc);
+    tokens_dup(shell, tokens, str_heredoc);
+    free_tokens(tokens);
     ft_free(line, 1);
 }
 

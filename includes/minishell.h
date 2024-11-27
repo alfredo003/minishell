@@ -58,10 +58,16 @@ int	ft_readline(t_shell *shell, char **line);
 void	init_params(char **env, t_shell shell);
 void	init_shell(t_shell *shell);
 void	ft_free(void *ptr, int free_ptr);
+void	free_tokens(t_token *tokens);
 t_token *gettokens(t_shell *shell, char *line);
 void verify_line(t_shell *shell, char *line);
 char	*get_substr(char *ptr, int *i, int *in_quotes);
+void	tokens_dup(t_shell *shell, t_token *tokens, char *str_heredoc);
 int	is_type(t_token token, char type);
 char	type_str(char *str, int in_quotes);
 int	is_separator(char c);
+char	*expand_variables(t_shell *shell, char *input, int in_heredoc);
+void	process_separator(char *line, int *i, t_token *matrix, int *j);
+char	*get_separator(char *line, int *i);
+int	verifying_heredoc(t_shell *shell, t_token *tokens, char **str_heredoc);
 #endif 

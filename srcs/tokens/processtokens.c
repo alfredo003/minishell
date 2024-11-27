@@ -1,5 +1,27 @@
 #include "minishell.h"
 
+void	process_separator(char *line, int *i, t_token *matrix, int *j)
+{
+	char	*str;
+
+	if (is_separator(line[*i]))
+	{
+		str = get_separator(line, i);
+		if (str && str[0])
+		{
+			if (*j > 0 && matrix[*j - 1].str && is_type(matrix[*j - 1], 'P'))
+			{
+				matrix[(*j)].str = ft_strdup("echo");
+				matrix[(*j)].type = 'A';
+				(*j)++;
+			}
+			matrix[(*j)].str = str;
+			matrix[(*j)].type = type_str(str, 0);
+			(*j)++;
+		}
+	}
+}
+
 int	ft_quote_is_closed(char *str, int i, int quote)
 {
 	while (str[++i])

@@ -19,5 +19,6 @@ void	init_shell(t_shell *shell)
         if (!ft_readline(shell, &line))
             break ;
         verify_cmd(shell, line);
+        ft_free(line, 1);
     }
 }

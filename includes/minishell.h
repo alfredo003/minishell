@@ -59,7 +59,7 @@ void	init_params(char **env, t_shell shell);
 void	init_shell(t_shell *shell);
 void	ft_free(void *ptr, int free_ptr);
 t_token *gettokens(t_shell *shell, char *line);
-void verify_cmd(t_shell *shell, char *line);
+void verify_line(t_shell *shell, char *line);
 char	*get_substr(char *ptr, int *i, int *in_quotes);
 int	is_type(t_token token, char type);
 char	type_str(char *str, int in_quotes);

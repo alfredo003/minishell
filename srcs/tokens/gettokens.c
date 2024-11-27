@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_token	*organize_tokens(t_token *tokens)
+static t_token	*organize_tokens(t_token *tokens)
 {
 	int		i;
 	t_token	tmp[3];

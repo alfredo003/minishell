@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void verify_cmd(t_shell *shell, char *line)
+void verify_line(t_shell *shell, char *line)
 {
     char *str_heredoc;
     int verify_heredoc;
@@ -13,7 +13,8 @@ void verify_cmd(t_shell *shell, char *line)
         return ;
     }
     tokens = gettokens(shell, line);
-
+    str_heredoc = NULL;
+    ft_free(line, 1);
 }
 
 int ft_readline(t_shell *shell, char **line)

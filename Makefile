@@ -11,7 +11,16 @@ SRCS =	./srcs/minishell.c	\
 		./srcs/utils/str_dup.c \
 		./srcs/utils/free_memory.c \
 		./srcs/utils/readline.c \
-		./srcs/utils/inits.c
+		./srcs/utils/inits.c \
+		./srcs/utils/verify_params.c \
+		./srcs/tokens/expand_variables.c \
+		./srcs/tokens/gettokens.c \
+		./srcs/tokens/parsing_str.c \
+		./srcs/tokens/processtokens.c \
+		./srcs/tokens/tokens_dup.c \
+		./srcs/tokens/utils.c \
+		./srcs/heredoc/heredoc.c \
+		./srcs/heredoc/verify_heredoc.c 
 
 OBJS = $(SRCS:.c=.o)
 

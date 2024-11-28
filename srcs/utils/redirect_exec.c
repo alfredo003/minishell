@@ -1,0 +1,54 @@
+#include "minishell.h"
+
+static int	is_builtin(char *command)
+{
+	return (!ft_strcmp(command, "echo")
+		|| !ft_strcmp(command, "cd")
+		|| !ft_strcmp(command, "pwd")
+		|| !ft_strcmp(command, "env")
+		|| !ft_strcmp(command, "export")
+		|| !ft_strcmp(command, "unset")
+		|| !ft_strcmp(command, "exit"));
+}
+
+void	ft_execute(t_shell *shell, int *pos_token)
+{
+	char	**cmd;
+
+	if (shell->charge == 0)
+		return ;
+	cmd = cmd_tab(shell->tokens, pos_token);
+	if (!cmd[0])
+		return ;
+	if (is_builtin(cmd[0]))
+		exec_builtin(cmd, shell);
+	else
+		execute_cmd(shell, cmd);
+	ft_free_matrix(cmd);
+	ft_close(shell->pipin);
+	ft_close(shell->pipout);
+	shell->pipin = -1;
+	shell->pipout = -1;
+	shell->charge = 0;
+}
+
+void	redirect_exec(t_shell *shell, int pos_token, int pipe)
+{
+	t_token	prev;
+
+	prev.str = NULL;
+	if (pos_token > 0)
+		prev = shell->tokens[pos_token - 1];
+	if (is_type(prev, 'R'))
+		redir(shell, shell->tokens[pos_token].str, "trunc");
+	else if (is_type(prev, 'T'))
+		redir(shell, shell->tokens[pos_token].str, "append");
+	else if (is_type(prev, 'I'))
+		input(shell, shell->tokens[pos_token].str);
+	else if (is_type(prev, 'P'))
+		pipe = shellpipe(shell);
+	if (shell->tokens[(pos_token + 1)].str && pipe != 1)
+		redir_and_exec(shell, (pos_token + 1), 0);
+	if ((!prev.str || is_type(prev, 'P')) && pipe != 1 && shell->no_exec == 0)
+		ft_execute(shell, &pos_token);
+}

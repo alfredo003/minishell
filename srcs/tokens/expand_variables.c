@@ -76,22 +76,22 @@ void	expand_variables_loop(t_shell *shell, char *input, char *expanded,
 
 	n = 0;
 	j = 0;
-	shell->values.val1 = 0;
+	mini->values.val1 = 0;
 	if (!expanded)
 		return ;
 	while (input[n])
 	{
 		if (input[n] == '$' && input[n + 1]
-			&& (shell->values.val1 != 39 || in_heredoc))
+			&& (mini->values.val1 != 39 || in_heredoc))
 		{
-			shell->values.str1 = input;
-			handle_variable_expansion(shell, expanded, &n, &j);
+			mini->values.str1 = input;
+			handle_variable_expansion(mini, expanded, &n, &j);
 		}
 		else
 		{
-			if (ft_can_be_add(input, n, shell))
+			if (ft_can_be_add(input, n, mini))
 				expanded[j++] = input[n];
-			handle_quotes(shell, input, &n);
+			handle_quotes(mini, input, &n);
 			n++;
 		}
 	}

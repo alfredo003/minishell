@@ -70,4 +70,7 @@ char	*expand_variables(t_shell *shell, char *input, int in_heredoc);
 void	process_separator(char *line, int *i, t_token *matrix, int *j);
 char	*get_separator(char *line, int *i);
 int	verifying_heredoc(t_shell *shell, t_token *tokens, char **str_heredoc);
-#endif 
+int	verifying_argument(t_shell *shell);
+void	redirect_exec(t_shell *shell, int pos_token, int pipe);
+int	ft_is_closed(char *str, int i, char quote);
+#endif

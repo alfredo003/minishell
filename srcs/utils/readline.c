@@ -2,7 +2,7 @@
 
 void verify_line(t_shell *shell, char *line)
 {
-    char *str_heredoc;
+    char *str_heredoc; 
     int verify_heredoc;
     t_token *tokens;
 

@@ -1,20 +1,20 @@
 #include "minishell.h"
 
-static int	g_signal_flag;  //Variável para armazenar sinais recebidos
+static int	g_signal_flag;
 
 void	handle_signal(int signal)
 {
-	g_signal_flag = signal;  //Registrar apenas o número do sinal
+	g_signal_flag = signal;
 	if (signal == SIGINT)
 	{
 		printf("\n");
-		rl_on_new_line(); //Informa ao readline que uma nova linha está sendo iniciada
-		rl_replace_line("", 0); //Limpa o conteúdo atual da linha
-		rl_redisplay(); //Atualiza o prompt e exibe o prompt limpo
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
-void	execute_external_command(char **args)
+/*void	execute_external_command(char **args)
 {
 	pid_t	pid;
 	int	status;
@@ -49,21 +49,21 @@ int	execute_internal_command(char **args)
 		export_command(args);
 		return (1);
 	}
-	/*else if (ft_strcmp(args[0], "echo") == 0)
+	else if (ft_strcmp(args[0], "echo") == 0)
 	{
 		cd_command(args);
 		return (1);
-	}*/
-	/*else if (ft_strcmp(args[0], "unset") == 0)
+	}
+	else if (ft_strcmp(args[0], "unset") == 0)
 	{
 		cd_command(args);
 		return (1);
-	}*/
-	/*else if (ft_strcmp(args[0], "env") == 0)
+	}
+	else if (ft_strcmp(args[0], "env") == 0)
 	{
 		cd_command(args);
 		return (1);
-	}*/
+	}
 	if (ft_strcmp(args[0], "exit") == 0)
 		exit(0);
 	return (0);
@@ -89,6 +89,20 @@ void	execute_command(char *input)
 		i++;
 	}
 	free(args);
+}*/
+
+void	execute_command(char *input)
+{
+	char	**tokens;
+	size_t	i;
+
+	i = 0;
+	tokens = ft_split_with_quotes_and_vars(input);
+	while (tokens[i])
+	{
+		printf("Token %zu: %s\n", i, tokens[i]);
+		i++;
+	}
 }
 
 int	main(void)
@@ -104,11 +118,10 @@ int	main(void)
 			break ;
 		if (input[0] != '\0')
 		{
-			add_history(input); // Adiciona ao histórico
+			add_history(input);
 			execute_command(input);
-			printf("%s\n", input);
 		}
-		free(input);  // Liberar a memória alocada por readline()
+		free(input);
 	}
-	return 0;
+	return (0);
 }

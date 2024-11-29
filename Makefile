@@ -7,8 +7,9 @@ LIBFT_DIR = ./libs/libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS =	./srcs/minishell.c	\
-	./srcs/internal_commands.c
+SRCS =	./srcs/minishell.c		\
+	./srcs/internal_commands.c	\
+	./srcs/function1.c
 
 OBJS = $(SRCS:.c=.o)
 

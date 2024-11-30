@@ -68,30 +68,29 @@ void	handle_variable_expansion(t_shell *shell
 	ft_free(env_value, 1);
 }
 
-void	expand_variables_loop(t_shell *shell, char *input, char *expanded,
-	int in_heredoc)
+void	expand_variables_loop(t_shell *shell, char *input, char *expanded, int in_heredoc)
 {
 	int		n;
 	int		j;
 
 	n = 0;
 	j = 0;
-	mini->values.val1 = 0;
+	shell->values.val1 = 0;
 	if (!expanded)
 		return ;
 	while (input[n])
 	{
 		if (input[n] == '$' && input[n + 1]
-			&& (mini->values.val1 != 39 || in_heredoc))
+			&& (shell->values.val1 != 39 || in_heredoc))
 		{
-			mini->values.str1 = input;
-			handle_variable_expansion(mini, expanded, &n, &j);
+			shell->values.str1 = input;
+			handle_variable_expansion(shell, expanded, &n, &j);
 		}
 		else
 		{
-			if (ft_can_be_add(input, n, mini))
+			if (ft_can_be_add(input, n, shell))
 				expanded[j++] = input[n];
-			handle_quotes(mini, input, &n);
+			handle_quotes(shell, input, &n);
 			n++;
 		}
 	}

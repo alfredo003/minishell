@@ -72,5 +72,11 @@ char	*get_separator(char *line, int *i);
 int	verifying_heredoc(t_shell *shell, t_token *tokens, char **str_heredoc);
 int	verifying_argument(t_shell *shell);
 void	redirect_exec(t_shell *shell, int pos_token, int pipe);
+int	ft_is_unclosed_quote(char *str, int i, char quote, t_shell *shell);
 int	ft_is_closed(char *str, int i, char quote);
+int	ft_can_be_add(char *str, int i, t_shell *shell);
+int	handle_return_value(t_shell *shell, int *n, int *len_aloc);
+int	get_variable_length(t_shell *shell, char *input, int *n);
+char	*get_env_value(t_shell *shell, char *input, int *n);
+char	*ft_getenv(t_env *env, char *var);
 #endif

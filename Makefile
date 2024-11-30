@@ -18,6 +18,7 @@ SRCS =	./srcs/minishell.c	\
 		./srcs/tokens/parsing_str.c \
 		./srcs/tokens/processtokens.c \
 		./srcs/tokens/tokens_dup.c \
+		./srcs/tokens/expand_var.c \
 		./srcs/tokens/utils.c \
 		./srcs/heredoc/heredoc.c \
 		./srcs/heredoc/verify_heredoc.c 

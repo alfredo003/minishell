@@ -1,13 +1,48 @@
 #include "minishell.h"
 
-int	ft_is_closed(char *str, int i, char quote)
+char	*ft_getenv(t_env *env, char *var)
 {
-	while (str[++i])
+	t_env	*env_tmp;
+
+	env_tmp = env;
+	while (env_tmp)
 	{
-		if (str[i] == quote)
-			return (1);
+		if (ft_strcmp(env_tmp->key, var) == 0)
+		{
+			if (env_tmp->equal == 1 && env_tmp->value)
+				return (ft_strdup(env_tmp->value));
+			else
+				return (NULL);
+		}
+		env_tmp = env_tmp->next;
 	}
-	return (0);
+	return (NULL);
+}
+
+char	*get_env_value(t_shell *shell, char *input, int *n)
+{
+	char	*env_name;
+	char	*env_value;
+	int		i;
+
+	i = 0;
+	if (input[*n] == '?')
+	{
+		env_value = ft_itoa(shell->last_return);
+		(*n)++;
+	}
+	else
+	{
+		env_name = malloc(1000);
+		if (!env_name)
+			return (NULL);
+		while (input[*n] && (ft_isalnum(input[*n]) || input[*n] == '_'))
+			env_name[i++] = input[(*n)++];
+		env_name[i] = '\0';
+		env_value = ft_getenv(shell->env, env_name);
+		ft_free(env_name, 1);
+	}
+	return (env_value);
 }
 
 int	is_separator(char c)

@@ -50,12 +50,13 @@ void	process_tokens(t_shell *shell, char *line, t_token *tokens)
 		while (line[i] == ' ' || line[i] == '\t')
             i++;
 		process_separator(line, &i, tokens, &j);
-		free_str_and_set_null(&str);
+		ft_free(str, 1);
+		str = NULL;
 	}
 	tokens[j].str = NULL;
 }
 
-static t_token *split_token(t_shell *shell, char *line)
+static t_token *split_tokens(t_shell *shell, char *line)
 {
     t_token *tokens;
 

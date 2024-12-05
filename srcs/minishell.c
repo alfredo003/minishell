@@ -1,35 +1,19 @@
 #include "minishell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
-static int	g_signal_flag;
+static	int g_signal_flag;  //Variável para armazenar sinais recebidos
 
 void	handle_signal(int signal)
 {
-	g_signal_flag = signal;
+	g_signal_flag = signal;  //Registrar apenas o número do sinal
 	if (signal == SIGINT)
 	{
 		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_on_new_line(); //Informa ao readline que uma nova linha está sendo iniciada
+		rl_replace_line("", 0); //Limpa o conteúdo atual da linha
+		rl_redisplay(); //Atualiza o prompt e exibe o prompt limpo
 	}
-}
-
-/*void	execute_external_command(char **args)
-{
-	pid_t	pid;
-	int	status;
-
-	pid = fork();
-	if (pid == 0)  // Processo filho
-	{
-		if (execve(args[0], args, NULL) == -1) // Executa o comando com o ambiente especificado
-			perror("minishell");
-		exit(EXIT_FAILURE); // Sai se execve falhar
-	}
-	else if (pid < 0)  // Erro ao criar o processo filho
-		perror("minishell");
-	else  // Processo pai
-		wait(&status); // Espera o processo filho terminar
 }
 
 int	execute_internal_command(char **args)
@@ -49,27 +33,45 @@ int	execute_internal_command(char **args)
 		export_command(args);
 		return (1);
 	}
-	else if (ft_strcmp(args[0], "echo") == 0)
+	/*else if (ft_strcmp(args[0], "echo") == 0)
 	{
 		cd_command(args);
 		return (1);
-	}
-	else if (ft_strcmp(args[0], "unset") == 0)
+	}*/
+	/*else if (ft_strcmp(args[0], "unset") == 0)
 	{
 		cd_command(args);
 		return (1);
-	}
+	}*/
 	else if (ft_strcmp(args[0], "env") == 0)
 	{
 		cd_command(args);
 		return (1);
 	}
-	if (ft_strcmp(args[0], "exit") == 0)
+	else if (ft_strcmp(args[0], "exit") == 0)
 		exit(0);
 	return (0);
 }
 
-void	execute_command(char *input)
+/*void	execute_external_command(char **args)
+{
+	pid_t	pid;
+	int	status;
+
+	pid = fork();
+	if (pid == 0)  // Processo filho
+	{
+		if (execve(args[0], args, NULL) == -1) // Executa o comando com o ambiente especificado
+			perror("my_shell");
+		exit(EXIT_FAILURE); // Sai se execve falhar
+	}
+	else if (pid < 0)  // Erro ao criar o processo filho
+		perror("my_shell");
+	else  // Processo pai
+		wait(&status); // Espera o processo filho terminar
+}*/
+
+/*void	execute_command(char *input)
 {
 	char	**args;
 	int	i;
@@ -91,13 +93,13 @@ void	execute_command(char *input)
 	free(args);
 }*/
 
-void	execute_command(char *input)
+void	execute_command(char *input, int last_exit_code)
 {
 	char	**tokens;
 	size_t	i;
 
 	i = 0;
-	tokens = ft_split_with_quotes_and_vars(input);
+	tokens = ft_split_with_quotes_and_vars(input, last_exit_code);
 	while (tokens[i])
 	{
 		printf("Token %zu: %s\n", i, tokens[i]);
@@ -108,20 +110,22 @@ void	execute_command(char *input)
 int	main(void)
 {
 	char	*input;
+	int	last_exit_code;
 
+	last_exit_code = 0;
 	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);  /*Ignorar Ctrl-\*/
 	while (1)
 	{
-		input = readline("minishell> ");
+		input = readline("my_shell> ");
 		if (input == NULL)
-			break ;
+			break ;  //Sai ao receber EOF (Ctrl-D)
 		if (input[0] != '\0')
 		{
-			add_history(input);
-			execute_command(input);
+			add_history(input);  //Adiciona ao histórico
+			execute_command(input, last_exit_code);
 		}
-		free(input);
+		free(input);  //Liberar a memória alocada por readline()
 	}
 	return (0);
 }

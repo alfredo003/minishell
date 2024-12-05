@@ -1,9 +1,25 @@
 #include "minishell.h"
 
+int	process_quote(char **str)
+{
+	char	quote;
+
+	quote = **str;
+	(*str)++;
+	while (**str && **str != quote)
+		(*str)++;
+	if (!**str)
+	{
+		printf("Error: Unterminated quote\n");
+		return (-1);
+	}
+	(*str)++;
+	return (1);
+}
+
 int	size_token(char *str)
 {
 	int	size;
-	char	quote;
 
 	size = 0;
 	while (*str)
@@ -12,16 +28,9 @@ int	size_token(char *str)
 			str++;
 		if (*str == '"' || *str == '\'')
 		{
-			quote = *str++;
-			size++;
-			while (*str && *str != quote)
-				str++;
-			if (!*str)
-			{
-				printf("Error: Unterminated quote\n");
+			if (process_quote(&str) == -1)
 				return (-1);
-			}
-				str++;
+			size++;
 		}
 		else if (*str && *str != ' ')
 		{
@@ -33,42 +42,6 @@ int	size_token(char *str)
 	return (size);
 }
 
-char *ft_strcpy(char *dest, const char *src)
-{
-	size_t	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strndup(const char *s, size_t n)
-{
-	size_t	len;
-	char	*dup;
-	size_t	i;
-
-	len = 0;
-	i = 0;
-	while (s[len] && len < n)
-		len++;
-	dup = (char *)malloc(len + 1);
-	if (!dup)
-		return NULL;
-	while (i < len)
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
 char	**initialize_tokens(char *input)
 {
 	char	**tokens;
@@ -76,8 +49,8 @@ char	**initialize_tokens(char *input)
 	tokens = malloc((size_token(input) + 1) * sizeof(char *));
 	if (!tokens)
 	{
-	printf("Allocation Error\n");
-	exit(EXIT_FAILURE);
+		printf("Allocation Error\n");
+		exit(EXIT_FAILURE);
 	}
 	return (tokens);
 }
@@ -103,38 +76,23 @@ void	process_quotes(char c, int *in_single_quotes, int *in_double_quotes)
 		*in_double_quotes = !(*in_double_quotes);
 }
 
-void	handle_variable_expansion(char *input, size_t *i, char *token, size_t *token_pos)
+void	handle_variable_expansion(char *input, size_t *i, char *token, size_t *token_pos, int last_exit_code)
 {
-	size_t	start;
-	size_t	var_len;
-	char	*var_name;
-	char	*value;
-
-	start = *i + 1;
-	var_len = 0;
-	while (ft_isalnum(input[start]) || input[start] == '_')
+	if (input[*i + 1] == '@')
 	{
-		start++;
-		var_len++;
+		expand_all_args(i, token, token_pos);
+		return ;
 	}
-	if (var_len > 0)
+	if (input[*i + 1] == '?')
 	{
-		var_name = ft_strndup(&input[*i + 1], var_len);
-		value = getenv(var_name);
-		free(var_name);
-
-		if (value)
-		{
-			ft_strcpy(&token[*token_pos], value);
-			*token_pos += ft_strlen(value);
-		}
-		*i = start;
+		expand_last_exit_code(i, token, token_pos, last_exit_code);
+		return ;
 	}
-	else
+	if (expand_variable(input, i, token, token_pos) == 0)
 	{
-		printf("%zu Fui chamado\n", *token_pos);
 		token[*token_pos] = input[*i];
 		(*token_pos)++;
+		(*i)++;
 	}
 }
 
@@ -166,39 +124,38 @@ char	**finalize_token(char *token, size_t *token_pos, char **tokens, size_t *tok
 	return (tokens);
 }
 
-char	**ft_split_with_quotes_and_vars(char *input)
+t_split_state	initialize_split_state(char *input)
 {
-	size_t	i;
-	size_t	token_pos;
-	size_t	token_count;
-	int		in_single_quotes;
-	int		in_double_quotes;
-	char	**tokens;
-	char	*token;
+	t_split_state	state;
 
-	i = 0;
-	token_pos = 0;
-	token_count = 0;
-	in_single_quotes = 0;
-	in_double_quotes = 0;
-	tokens = initialize_tokens(input);
-	token = initialize_token(input);
-	while (input[i])
+	state.i = 0;
+	state.token_pos = 0;
+	state.token_count = 0;
+	state.in_single_quotes = 0;
+	state.in_double_quotes = 0;
+	state.tokens = initialize_tokens(input);
+	state.token = initialize_token(input);
+	return (state);
+}
+
+char	**ft_split_with_quotes_and_vars(char *input, int last_exit_code)
+{
+	t_split_state	state;
+
+	state = initialize_split_state(input);
+	while (input[state.i])
 	{
-		process_quotes(input[i], &in_single_quotes, &in_double_quotes);
-	if (input[i] == '$' && in_single_quotes == 0)
+		process_quotes(input[state.i], &state.in_single_quotes, &state.in_double_quotes);
+	if (input[state.i] == '$' && state.in_single_quotes == 0)
 	{
-		handle_variable_expansion(input, &i, token, &token_pos);
+		handle_variable_expansion(input, &state.i, state.token, &state.token_pos, last_exit_code);
 		continue ;
 	}
-	if (is_delimiter(input[i], in_single_quotes, in_double_quotes))
-		handle_token_addition(token, &token_pos, tokens, &token_count);
-	else if (input[i] != '\'' && input[i] != '"')
-	{
-		printf("\nProcessando caractere: %c\n", input[i]);
-		token[token_pos++] = input[i];
+	if (is_delimiter(input[state.i], state.in_single_quotes, state.in_double_quotes))
+		handle_token_addition(state.token, &state.token_pos, state.tokens, &state.token_count);
+	else if (input[state.i] != '\'' && input[state.i] != '"')
+		state.token[state.token_pos++] = input[state.i];
+	state.i++;
 	}
-	i++;
-	}
-	return (finalize_token(token, &token_pos, tokens, &token_count));
+	return (finalize_token(state.token, &state.token_pos, state.tokens, &state.token_count));
 }

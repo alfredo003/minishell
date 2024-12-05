@@ -3,11 +3,11 @@
 void	cd_command(char **args)
 {
 	if (args[1] == NULL)
-		printf("minishell: waiting for \"cd dir_name\"\n");
+		printf("my_shell: waiting for \"cd dir_name\"\n");
 	else
 	{
 		if (chdir(args[1]) != 0)
-			perror("minishell");
+			perror("my_shell");
 	}
 }
 
@@ -22,7 +22,7 @@ void	pwd_command(void)
 		free(cwd); // Libera a memória alocada
 	}
 	else
-		perror("minishell");
+		perror("my_shell");
 }
 
 void	export_command(char **args)
@@ -31,19 +31,19 @@ void	export_command(char **args)
 
 	if (args[1] == NULL)
 	{
-		printf("minishell: export VAR=VAL\n");
+		printf("my_shell: export VAR=VAL\n");
 		return ;
 	}
 	var_val = ft_split(args[1], '=');
 	if (!var_val || !var_val[0] || !var_val[1])
 	{
-		printf("minishell: invalid use of export: %s\n", args[1]);
+		printf("my_shell: invalid use of export: %s\n", args[1]);
 		if (var_val)
 			free(var_val);
 		return ;
 	}
-	if (setenv(var_val[0], var_val[1], 1) != 0) //Modificar setenv pois não está no subject
-		perror("minishell: Error setting environment variable");
+	if (setenv(var_val[0], var_val[1], 1) != 0)
+		perror("my_shell: Error setting environment variable");
 	free(var_val[0]);
 	free(var_val[1]);
 	free(var_val);

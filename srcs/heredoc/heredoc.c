@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	*get_trimmed_line(t_mini *mini, char *delimiter)
+static char	*get_trimmed_line(t_shell *shell, char *delimiter)
 {
 	char	*line;
 	char	*tmp;
@@ -15,20 +15,20 @@ static char	*get_trimmed_line(t_mini *mini, char *delimiter)
 		exit(1);
 	}
 	tmp = ft_strtrim(line, " ");
-	tmp = expand_variables(mini, tmp, 1);
+	tmp = expand_variables(shell, tmp, 1);
 	ft_free(line, 1);
 	return (tmp);
 }
 
-char	*heredoc(t_mini *mini, char *delimiter)
+char	*heredoc(t_shell *shell, char *delimiter)
 {
-	char	*tmp;tokens_dup
+	char	*tmp;
 	char	*str;
 
 	str = ft_strdup("");
 	while (1)
 	{
-		tmp = get_trimmed_line(mini, delimiter);
+		tmp = get_trimmed_line(shell, delimiter);
 		if (tmp == NULL)
 			return (NULL);
 		if (ft_strcmp(tmp, delimiter) == 0)
@@ -38,8 +38,8 @@ char	*heredoc(t_mini *mini, char *delimiter)
 		}
 		else
 		{
-			str = ft_strjoin2(str, tmp, 1, 1);
-			str = ft_strjoin2(str, "\n", 1, 0);
+			str = ft_strjoin_free(str, tmp, 1, 1);
+			str = ft_strjoin_free(str, "\n", 1, 0);
 		}
 	}
 	return (str);

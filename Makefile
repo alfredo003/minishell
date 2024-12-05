@@ -12,6 +12,7 @@ SRCS =	./srcs/minishell.c	\
 		./srcs/utils/free_memory.c \
 		./srcs/utils/readline.c \
 		./srcs/utils/inits.c \
+		./srcs/utils/ft_strjoin_free.c \
 		./srcs/utils/verify_params.c \
 		./srcs/tokens/expand_variables.c \
 		./srcs/tokens/gettokens.c \

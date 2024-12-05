@@ -2,13 +2,21 @@
 # define MINISHELL_H
 
 # include "../libs/libft/libft.h"
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <string.h>
-# include <signal.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <sys/types.h>
-# include <sys/wait.h>
+# include <signal.h>
+# include <termios.h>
+# include <sys/stat.h>
+# include <dirent.h>
+# include <stdbool.h>
 
 typedef struct s_token
 {
@@ -24,6 +32,14 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_values
+{
+	int		val1;
+	int		val2;
+	char	*str1;
+	char	*str2;
+}	t_values;
+
 typedef struct s_shell
 {
 	t_token		*tokens;
@@ -34,6 +50,7 @@ typedef struct s_shell
 	int			last_return;
 	int			no_exec;
 	int			exit_status;
+	t_values	values;
 }	t_shell;
 
 void	dup_env(char **env, t_shell *shell);
@@ -64,4 +81,7 @@ int	get_variable_length(t_shell *shell, char *input, int *n);
 char	*get_env_value(t_shell *shell, char *input, int *n);
 char	*ft_getenv(t_env *env, char *var);
 char	**cmd_tab(t_token *tokens, int *pos_token);
+void	execute_cmd(t_shell *shell, char **cmd);
+char	*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2);
+char	*heredoc(t_shell *shell, char *delimiter);
 #endif

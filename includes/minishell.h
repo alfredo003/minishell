@@ -25,28 +25,26 @@ typedef struct	s_split_state
 void	cd_command(char **args);
 void	pwd_command(void);
 void	export_command(char **args);
-int	process_quote(char **str);
 
 
 
 
-
-
-int	size_token(char *str);
-char	**initialize_tokens(char *input);
-char	*initialize_token(char *input);
-void	process_quotes(char c, int *in_single_quotes, int *in_double_quotes);
-void	handle_variable_expansion(char *input, size_t *i, char *token, size_t *token_pos, int last_exit_code);
-char	**finalize_token(char *token, size_t *token_pos, char **tokens, size_t *token_count);
+void	process_quotes(char c, t_split_state *state);
+void	handle_variable_expansion(char *input, t_split_state *state, int last_exit_code);
+char	**finalize_token(t_split_state *state);
 char	**ft_split_with_quotes_and_vars(char *input, int last_exit_code);
-int	expand_variable(char *input, size_t *i, char *token, size_t *token_pos);
-void	expand_all_args(size_t *i, char *token, size_t *token_pos);
-void	expand_last_exit_code(size_t *i, char *token, size_t *token_pos, int last_exit_code);
+size_t	get_variable_length(char *input, size_t start);
+int	expand_variable(char *input, t_split_state *state);
+void	expand_all_args(t_split_state *state);
+void	expand_last_exit_code(t_split_state *state, int last_exit_code);
 
 
 
 
+int	process_quote(char **str);
+int	size_token(char *str);
 char *ft_strcpy(char *dest, const char *src);
 char	*ft_strndup(const char *s, size_t n);
+t_split_state	initialize_split_state(char *input);
 
 #endif

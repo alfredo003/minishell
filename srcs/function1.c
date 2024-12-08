@@ -14,7 +14,7 @@ void	handle_variable_expansion(char *input, t_split_state *state, int last_exit_
 		expand_all_args(state);
 	else if (input[state->i + 1] == '?')
 		expand_last_exit_code(state, last_exit_code);
-	if (expand_variable(input, state) == 0)
+	else if (expand_variable(input, state) == 0)
 	{
 		state->token[state->token_pos] = input[state->i];
 		state->token_pos++;

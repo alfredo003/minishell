@@ -87,7 +87,7 @@ void	redir_and_exec(t_shell *mini, int pos_token, int pipe);
 void	redir(t_shell *mini, char *file, char *type);
 void	input(t_shell *mini, char *file);
 void	handle_export(char **tmp, t_env **env, t_shell *mini);
-void	str_dup_env(char **env, t_shell *mini, int equal);
+void	dup_env(char **env, t_shell *mini, int equal);
 void	ft_close(int fd);
 void	ft_free_matrix(char **matrix);
 void	ft_env(t_env *env, int type);

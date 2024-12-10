@@ -11,15 +11,14 @@ SRCS =	src/main.c							\
 		src/inits.c						\
 		src/utils/readline.c						\
 		src/utils/free_memory.c						\
+		src/utils/dup_env.c					\
 		src/redir_and_exec.c					\
 		src/redir.c							\
 		src/execute_builtin.c				\
 		src/ft_verifying_argument.c			\
 		src/execute_cmd.c					\
 		src/increment_shell_level.c			\
-		src/ft_free2.c						\
 		src/heredoc/heredoc.c				\
-		src/signal.c							\
 		src/cmd_tab.c						\
 		src/tokens/ft_type.c					\
 		src/tokens/return_str.c				\
@@ -31,7 +30,6 @@ SRCS =	src/main.c							\
 		src/tokens/process_str.c				\
 		src/minipipe.c						\
 		src/input.c							\
-		src/str_dup_env.c					\
 		src/numb_split.c						\
 		src/ft_strisnum.c					\
 		src/env_to_matrix.c					\

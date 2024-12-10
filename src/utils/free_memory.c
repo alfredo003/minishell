@@ -61,3 +61,16 @@ void	free_env(t_env *head)
 		ft_free(tmp, 1);
 	}
 }
+
+void	ft_free_matrix(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	if (!matrix)
+		return ;
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
+	matrix = NULL;
+}

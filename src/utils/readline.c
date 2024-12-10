@@ -2,7 +2,7 @@
  
 int	ft_readline(t_shell *shell, char **line)
 {
-	*line = readline("minishell> ");
+	*line = readline("minishell$ ");
 	if (!*line)
 	{
 		shell->exit_status = 1;

@@ -27,7 +27,7 @@ static void	process_line(t_shell *shell, char *line)
 	ft_free(line, 1);
 }
 
-void	init_struct(t_shell *shell)
+void	init_struct(t_shell *shell,char **env)
 {
 	shell->fdin = -1;
 	shell->fdout = -1;
@@ -38,6 +38,7 @@ void	init_struct(t_shell *shell)
 	shell->exit_status = 0;
 	shell->no_exec = 0;
 	shell->tokens = NULL;
+	str_dup_env(env, &shell, 0);
 }
 
 void	init_shell(t_shell *shell)

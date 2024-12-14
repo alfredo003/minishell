@@ -27,7 +27,7 @@ SRCS =	src/main.c							\
 		src/tokens/gettokens.c				\
 		src/tokens/process_tokens.c		\
 		src/pipe/minipipe.c						\
-		src/env_to_matrix.c					\
+		src/env/env_to_matrix.c					\
 		src/signal.c				\
 		src/builtins/ft_echo.c				\
 		src/builtins/ft_cd.c					\

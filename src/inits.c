@@ -31,6 +31,7 @@ void	init_struct(t_shell *shell,char **env)
 {
 	reset_fds(shell);
 	dup_env(env, shell, 0);
+	handle_signals();
 }
 
 void	init_shell(t_shell *shell)

@@ -6,7 +6,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	init_struct(&shell,env);
-	handle_signals();
 	init_shell(&shell);
 	return (shell.last_return); 
 }

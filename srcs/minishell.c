@@ -1,131 +1,119 @@
 #include "minishell.h"
-#include <sys/types.h>
-#include <sys/wait.h>
 
-static	int g_signal_flag;  //Variável para armazenar sinais recebidos
+static	int g_signal_flag;
 
 void	handle_signal(int signal)
 {
-	g_signal_flag = signal;  //Registrar apenas o número do sinal
+	g_signal_flag = signal;
 	if (signal == SIGINT)
 	{
 		printf("\n");
-		rl_on_new_line(); //Informa ao readline que uma nova linha está sendo iniciada
-		rl_replace_line("", 0); //Limpa o conteúdo atual da linha
-		rl_redisplay(); //Atualiza o prompt e exibe o prompt limpo
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
-int	execute_internal_command(char **args)
+void	initialize_shell(t_shell *shell, char **envp)
 {
-	if (ft_strcmp(args[0], "cd") == 0)
-	{
-		cd_command(args);
-		return (1);
-	}
-	else if (ft_strcmp(args[0], "pwd") == 0)
-	{
-		pwd_command();
-		return (1);
-	}
-	else if (ft_strcmp(args[0], "export") == 0)
-	{
-		export_command(args);
-		return (1);
-	}
-	/*else if (ft_strcmp(args[0], "echo") == 0)
-	{
-		cd_command(args);
-		return (1);
-	}*/
-	/*else if (ft_strcmp(args[0], "unset") == 0)
-	{
-		cd_command(args);
-		return (1);
-	}*/
-	else if (ft_strcmp(args[0], "env") == 0)
-	{
-		cd_command(args);
-		return (1);
-	}
-	else if (ft_strcmp(args[0], "exit") == 0)
-		exit(0);
-	return (0);
-}
-
-/*void	execute_external_command(char **args)
-{
-	pid_t	pid;
-	int	status;
-
-	pid = fork();
-	if (pid == 0)  // Processo filho
-	{
-		if (execve(args[0], args, NULL) == -1) // Executa o comando com o ambiente especificado
-			perror("my_shell");
-		exit(EXIT_FAILURE); // Sai se execve falhar
-	}
-	else if (pid < 0)  // Erro ao criar o processo filho
-		perror("my_shell");
-	else  // Processo pai
-		wait(&status); // Espera o processo filho terminar
-}*/
-
-/*void	execute_command(char *input)
-{
-	char	**args;
-	int	i;
-
-	args = ft_split(input, ' ');
-	i = 0;
-	if (args[i] == NULL)
-	{
-		free(args);
-		return ;
-	}
-	if (!execute_internal_command(args))
-		execute_external_command(args);
-	while (args[i] != NULL)
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-}*/
-
-void	execute_command(char *input, int last_exit_code)
-{
-	char	**tokens;
-	size_t	i;
-
-	i = 0;
-	tokens = ft_split_with_quotes_and_vars(input, last_exit_code);
-	while (tokens[i])
-	{
-		printf("Token %zu: %s\n", i, tokens[i]);
-		i++;
-	}
-}
-
-int	main(void)
-{
-	char	*input;
-	int	last_exit_code;
-
-	last_exit_code = 0;
+	shell->env = convert_to_env_list(envp);
 	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);  /*Ignorar Ctrl-\*/
+	signal(SIGQUIT, SIG_IGN);
+	shell->exit_status = 0;
+}
+
+void print_commands(t_command *commands) {
+    t_command *current = commands;
+
+    while (current) {
+        // Imprime os argumentos
+        printf("Command:\n");
+        if (current->args) {
+            for (int i = 0; current->args[i]; i++) {
+                printf("  Arg[%d]: %s\n", i, current->args[i]);
+            }
+        } else {
+            printf("  No arguments\n");
+        }
+
+        // Imprime os redirecionamentos
+        printf("  Redirections:\n");
+        t_redirection *redir = current->redirections;
+        while (redir) {
+            printf("    Type: %d, File: %s\n", redir->type, redir->file);
+            redir = redir->next;
+        }
+
+        // Move para o próximo comando
+        current = current->next;
+        printf("\n");
+    }
+}
+
+void free_commands(t_command *commands) {
+    t_command *current = commands;
+    t_command *next_command;
+
+    while (current) {
+        next_command = current->next;
+
+        // Libera os argumentos
+        if (current->args) {
+            for (int i = 0; current->args[i]; i++) {
+                free(current->args[i]);
+            }
+            free(current->args);
+        }
+
+        // Libera os redirecionamentos
+        t_redirection *redir = current->redirections;
+        while (redir) {
+            t_redirection *next_redir = redir->next;
+            free(redir->file);
+            free(redir);
+            redir = next_redir;
+        }
+
+        // Libera o comando atual
+        free(current);
+
+        // Avança para o próximo comando
+        current = next_command;
+    }
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_shell	shell;
+	t_command	*commands;
+	char	*input;
+	char	**tokens;
+
+	(void)argc;
+	(void)argv;
+	initialize_shell(&shell, envp);
 	while (1)
 	{
-		input = readline("my_shell> ");
-		if (input == NULL)
-			break ;  //Sai ao receber EOF (Ctrl-D)
-		if (input[0] != '\0')
+		input = readline("minishell> ");
+		if (!input)
+			break;
+		if (*input)
+			add_history(input);
+		tokens = tokenize_input(input);
+		commands = parse_tokens(tokens);
+		//execute_commands(commands, &shell);
+		//free_commands(commands);
+		for (int i = 0; tokens[i] != NULL; i++)
 		{
-			add_history(input);  //Adiciona ao histórico
-			execute_command(input, last_exit_code);
+			printf("Token[%d]: %s\n", i, tokens[i]);
+			free(tokens[i]);
 		}
-		free(input);  //Liberar a memória alocada por readline()
+		print_commands(commands);
+		free_commands(commands);
+		free(tokens);
+		free(input);
 	}
+	free_env_list(shell.env);
+	//cleanup_shell(&shell);
 	return (0);
 }

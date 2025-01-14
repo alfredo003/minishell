@@ -8,7 +8,7 @@ static void	go_pwd(char *path, t_shell *shell)
 	past_pwd = ft_pwd(shell);
 	if (chdir(path))
 	{
-		printf("shellshell: cd: %s: No such file or directory\n", path);
+		printf("minishell: cd: %s: No such file or directory\n", path);
 		shell->last_return = 1;
 	}
 	else

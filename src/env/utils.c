@@ -12,7 +12,6 @@ t_env	*add_envirenoment(char *env_name, char *env_value, int equal)
 	return (new);
 }
 
-
 int	handle_unset(char **tmp, t_env **env)
 {
 	int	n;

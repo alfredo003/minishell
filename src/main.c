@@ -7,5 +7,5 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	init_struct(&shell,env);
 	init_shell(&shell);
-	return (shell.last_return); 
+	return (shell.last_return);
 }

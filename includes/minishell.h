@@ -154,4 +154,5 @@ int		ft_is_unclosed_quote(char *str, int i, char quote, t_shell *shell);
 int		is_type(t_token token, char type);
 int		verifying_heredoc(t_shell *shell, t_token *tokens, char **str_heredoc);
 void	pip_process(char *line);
+
 #endif

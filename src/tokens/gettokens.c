@@ -48,7 +48,6 @@ t_token	*process_str(t_shell *shell, char *line)
 	return (tokens);
 }
 
-
 t_token	*gettokens(t_shell *shell, char *line)
 {
 	t_token	*tokens;

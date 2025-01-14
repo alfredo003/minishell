@@ -104,7 +104,7 @@ char	*expand_variables(t_shell *shell, char *input, int in_heredoc)
 	int		len_aloc;
 
 	len_aloc = ft_get_len_aloc(shell, input, in_heredoc);
-	expanded = (char *)malloc(len_aloc + 100);
+	expanded = (char *)malloc(len_aloc);
 	expand_variables_loop(shell, input, expanded, in_heredoc);
 	ft_free(input, 1);
 	return (expanded);

@@ -31,6 +31,10 @@ void	init_struct(t_shell *shell,char **env)
 {
 	reset_fds(shell);
 	dup_env(env, shell, 0);
+	shell->last_return = 0;
+	shell->exit_status = 0;
+	shell->no_exec = 0;
+	shell->tokens = NULL;
 	handle_signals();
 }
 
@@ -41,11 +45,9 @@ void	init_shell(t_shell *shell)
 
 	while (shell->exit_status == 0)
 	{ 
-		shell->tokens = NULL;
 		shell->parent = 1;
 		shell->in = dup(STDIN_FILENO);
 		shell->out = dup(STDOUT_FILENO);
-
 		if (!ft_readline(shell, &line))
 			break ;
 		process_line(shell, line);

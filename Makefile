@@ -36,9 +36,9 @@ SRCS =	src/main.c							\
 		src/env/get_env_value.c		\
 		src/env/expand_variables.c	\
 		src/env/utils.c	\
-		src/env/ft_export.c			\
-		src/env/ft_unset.c			\
-		src/env/ft_env.c				\
+		src/builtins/ft_export.c			\
+		src/builtins/ft_unset.c			\
+		src/builtins/ft_env.c				\
 		src/env/ft_getenv.c			\
 		src/env/handle_export.c		\
 		src/utils/utils.c \

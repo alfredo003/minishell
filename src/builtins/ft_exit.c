@@ -13,7 +13,7 @@ static int	ft_is_numeric(char *str)
 
 static void	closing_minishell_on_error(t_shell *shell, char **args)
 {
-	printf("minishell: exit: %s: numeric argument required\n", args[1]);
+	(void)args;
 	shell->last_return = 2;
 	shell->exit_status = 1;
 	return ;

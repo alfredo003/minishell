@@ -48,6 +48,7 @@ void	init_shell(t_shell *shell)
 		shell->parent = 1;
 		shell->in = dup(STDIN_FILENO);
 		shell->out = dup(STDOUT_FILENO);
+		shell->tokens = NULL; //Linha adicionada
 		if (!ft_readline(shell, &line))
 			break ;
 		process_line(shell, line);

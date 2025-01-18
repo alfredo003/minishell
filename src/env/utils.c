@@ -79,30 +79,23 @@ int	get_variable_length(t_shell *shell, char *input, int *n)
 	char	*env_name;
 	int		i;
 	int		len_aloc;
+	char	*env_value;
 
 	i = 0;
 	len_aloc = 0;
 	(*n)++;
 	if (input[*n] == '?')
 		return (handle_return_value(shell, n, &len_aloc));
-	if (!ft_isalpha(input[*n]) && input[*n] != '_') //New function
-		return (handle_invalid_variable(input, n));//New function
-	env_name = malloc(1000);
+	env_name = malloc(ft_strlen(input) + 1);
 	if (!env_name)
 		return (0);
 	while (input[*n] && (ft_isalnum(input[*n]) || input[*n] == '_'))
 		env_name[i++] = input[(*n)++];
 	env_name[i] = '\0';
-	shell->values.str1 = ft_getenv(shell->env, env_name);
-	len_aloc += ft_strlen(shell->values.str1);
-	ft_free(env_name, 1);
-	ft_free(shell->values.str1, 1);
+	env_value = ft_getenv(shell->env, env_name); //Obtém o valor da variável de ambiente correspondente
+	if (env_value)
+		len_aloc += ft_strlen(env_value); //Calcula o seu comprimento
+	ft_free(env_name, 1); //Libera a memória
+	ft_free(env_value, 1);
 	return (len_aloc);
-}
-
-int	handle_invalid_variable(char *input, int *n) //New function
-{
-	(void)input;
-	(*n)++;
-	return (1);
 }

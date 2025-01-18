@@ -46,10 +46,10 @@ size_t	count_substrings(const char *s, const char *delimiter)
 	t_state	state;
 
 	state.i = 0;
-	state.len = strlen(s);
+	state.len = ft_strlen(s);
 	state.in_single_quotes = 0;
 	state.in_double_quotes = 0;
-	delimiter_len = strlen(delimiter);
+	delimiter_len = ft_strlen(delimiter);
 	count = count_loop(s, delimiter, &state, delimiter_len);
 	return (count + 1);
 }

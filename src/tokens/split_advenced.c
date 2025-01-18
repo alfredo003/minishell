@@ -39,10 +39,10 @@ static int	process_substrings(char **result, const char *s,
 
 	state.i = 0;
 	state.start = 0;
-	state.len = strlen(s);
+	state.len = ft_strlen(s);
 	state.in_single_quotes = 0;
 	state.in_double_quotes = 0;
-	state.delimiter_len = strlen(delimiter);
+	state.delimiter_len = ft_strlen(delimiter);
 	return (process_loop(result, s, delimiter, &state));
 }
 

@@ -85,6 +85,8 @@ int	get_variable_length(t_shell *shell, char *input, int *n)
 	(*n)++;
 	if (input[*n] == '?')
 		return (handle_return_value(shell, n, &len_aloc));
+	if (!ft_isalpha(input[*n]) && input[*n] != '_') //New function
+		return (handle_invalid_variable(input, n));//New function
 	env_name = malloc(1000);
 	if (!env_name)
 		return (0);
@@ -96,4 +98,11 @@ int	get_variable_length(t_shell *shell, char *input, int *n)
 	ft_free(env_name, 1);
 	ft_free(shell->values.str1, 1);
 	return (len_aloc);
+}
+
+int	handle_invalid_variable(char *input, int *n) //New function
+{
+	(void)input;
+	(*n)++;
+	return (1);
 }

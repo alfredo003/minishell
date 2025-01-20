@@ -42,6 +42,7 @@ SRCS =	src/main.c							\
 		src/env/ft_getenv.c			\
 		src/env/handle_export.c		\
 		src/utils/utils.c \
+		src/utils/close_and_reset.c \
 		src/utils/strjoin_free.c
 
 OBJS = $(SRCS:.c=.o)

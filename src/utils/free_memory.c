@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_memory.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djoao <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 13:27:47 by djoao             #+#    #+#             */
+/*   Updated: 2025/01/20 13:27:49 by djoao            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_free_tokens(t_token *tokens)
@@ -44,7 +56,7 @@ void	reset_fds(t_shell *shell)
 	shell->pipout = -1;
 	shell->pid = -1;
 }
- 
+
 void	close_fds(t_shell *shell)
 {
 	ft_close(shell->fdin);

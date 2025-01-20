@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_and_exec.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djoao <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 12:57:46 by djoao             #+#    #+#             */
+/*   Updated: 2025/01/20 12:57:48 by djoao            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**cmd_tab(t_token *tokens, int *pos_token)
@@ -28,7 +40,6 @@ char	**cmd_tab(t_token *tokens, int *pos_token)
 	tab[i] = NULL;
 	return (tab);
 }
-
 
 static int	is_builtin(char *command)
 {

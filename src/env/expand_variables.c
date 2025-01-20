@@ -114,7 +114,8 @@ char	*expand_variables(t_shell *shell, char *input, int in_heredoc)
 	char	*expanded;
 	int		len_aloc;
 
-	return (input);
+	if (input[0] == '$' && input[1] == '$')
+		return (input);
 	len_aloc = ft_get_len_aloc(shell, input, in_heredoc);
 	expanded = (char *)malloc(len_aloc + 1);
 	if (!expanded)

@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inits.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 16:42:30 by achivela          #+#    #+#             */
+/*   Updated: 2025/01/20 16:42:36 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "minishell.h"
- 
+
 static void	process_line(t_shell *shell, char *line)
 {
 	char	*str_heredoc;
@@ -11,7 +22,7 @@ static void	process_line(t_shell *shell, char *line)
 	{
 		ft_free(line, 1);
 		return ;
-	} 
+	}
 	tokens = gettokens(shell, line);
 	str_heredoc = NULL;
 	verif_heredoc = verifying_heredoc(shell, tokens, &str_heredoc);
@@ -27,7 +38,7 @@ static void	process_line(t_shell *shell, char *line)
 	ft_free(line, 1);
 }
 
-void	init_struct(t_shell *shell,char **env)
+void	init_struct(t_shell *shell, char **env)
 {
 	reset_fds(shell);
 	dup_env(env, shell, 0);
@@ -44,11 +55,11 @@ void	init_shell(t_shell *shell)
 	int		status;
 
 	while (shell->exit_status == 0)
-	{ 
+	{
 		shell->parent = 1;
 		shell->in = dup(STDIN_FILENO);
 		shell->out = dup(STDOUT_FILENO);
-		shell->tokens = NULL; //Linha adicionada
+		shell->tokens = NULL;
 		if (!ft_readline(shell, &line))
 			break ;
 		process_line(shell, line);

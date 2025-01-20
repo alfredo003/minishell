@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djoao <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 12:06:36 by djoao             #+#    #+#             */
+/*   Updated: 2025/01/20 12:06:46 by djoao            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./minishell.h"
 
 static int	ft_is_numeric(char *str)
@@ -19,7 +31,8 @@ static void	closing_minishell_on_error(t_shell *shell, char **args)
 	return ;
 }
 
-static void	verifying_exits_arguments(t_shell *shell, char **args, int *total_of_arguments)
+static void	verifying_exits_arguments(t_shell *shell, char **args,
+	int *total_of_arguments)
 {
 	if (*total_of_arguments >= 3)
 	{

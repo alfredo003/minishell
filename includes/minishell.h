@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 17:08:08 by achivela          #+#    #+#             */
+/*   Updated: 2025/01/20 17:08:11 by achivela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -21,7 +33,7 @@
 # include <sys/stat.h>
 # include <dirent.h>
 # include <stdbool.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 # include "../libs/libft/libft.h"
 
 typedef struct s_token

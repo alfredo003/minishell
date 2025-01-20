@@ -1,23 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   close_and_reset.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achivela <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:16:09 by achivela          #+#    #+#             */
-/*   Updated: 2025/01/20 17:16:14 by achivela         ###   ########.fr       */
+/*   Created: 2025/01/20 17:14:41 by achivela          #+#    #+#             */
+/*   Updated: 2025/01/20 17:14:43 by achivela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+void	ft_close(int fd)
 {
-	t_shell	shell;
+	if (fd > 0)
+		close(fd);
+}
 
-	(void)argc;
-	(void)argv;
-	init_struct(&shell, env);
-	init_shell(&shell);
-	return (shell.last_return);
+void	reset_std(t_shell *shell)
+{
+	dup2(shell->in, STDIN);
+	dup2(shell->out, STDOUT);
+}
+
+void	reset_fds(t_shell *shell)
+{
+	shell->fdin = -1;
+	shell->fdout = -1;
+	shell->pipin = -1;
+	shell->pipout = -1;
+	shell->pid = -1;
+}
+
+void	close_fds(t_shell *shell)
+{
+	ft_close(shell->fdin);
+	ft_close(shell->fdout);
+	ft_close(shell->pipin);
+	ft_close(shell->pipout);
 }

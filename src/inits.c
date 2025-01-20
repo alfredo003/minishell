@@ -24,6 +24,12 @@ static void	process_line(t_shell *shell, char *line)
 		return ;
 	}
 	tokens = gettokens(shell, line);
+	if (!tokens)
+	{
+		ft_free(line, 1);
+		shell->last_return = 1;
+		return;
+	}
 	str_heredoc = NULL;
 	verif_heredoc = verifying_heredoc(shell, tokens, &str_heredoc);
 	dup_tokens(shell, tokens, str_heredoc);
@@ -31,6 +37,13 @@ static void	process_line(t_shell *shell, char *line)
 	{
 		shell->last_return = 258;
 		return ;
+	}
+	if (!verifying_argument(shell))
+	{
+		shell->last_return = 258;
+		ft_free_tokens(tokens);
+		ft_free(line, 1);
+		return;
 	}
 	shell->charge = 1;
 	redir_and_exec(shell, 0, 0);

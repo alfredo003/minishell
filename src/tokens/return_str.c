@@ -54,7 +54,8 @@ char	*return_str(char *ptr, int *i, int *in_quotes)
 	int		single_quote;
 	int		double_quote;
 
-	str = (char *)malloc(sizeof(char) * 100000);
+	int test = ft_strlen(ptr);
+	str = (char *)malloc(sizeof(char) * test);
 	if (!str)
 		return (NULL);
 	n = 0;

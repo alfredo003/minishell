@@ -7,25 +7,42 @@ LIBFT_DIR = ./libs/libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS =	./srcs/minishell.c	\
-		./srcs/utils/str_dup.c \
-		./srcs/utils/free_memory.c \
-		./srcs/utils/readline.c \
-		./srcs/utils/inits.c \
-		./srcs/utils/ft_strjoin_free.c \
-		./srcs/utils/verify_params.c \
-		./srcs/tokens/expand_variables.c \
-		./srcs/tokens/gettokens.c \
-		./srcs/tokens/parsing_str.c \
-		./srcs/tokens/processtokens.c \
-		./srcs/tokens/tokens_dup.c \
-		./srcs/tokens/expand_var.c \
-		./srcs/tokens/utils.c \
-		./srcs/heredoc/heredoc.c \
-		./srcs/heredoc/verify_heredoc.c \
-		./srcs/execute/redirect_exec.c \
-		./srcs/execute/command.c \
-		./srcs/execute/cmd_exec.c 
+SRCS =	src/main.c							\
+		src/utils/free_memory.c						\
+		src/inits.c		\
+		src/execute/redir.c								\
+		src/utils/readline.c						\
+		src/utils/dup_env.c					\
+		src/utils/dup_tokens.c						\
+		src/tokens/utils.c					\
+		src/execute/redir_and_exec.c					\
+		src/execute/execute_builtin.c				\
+		src/execute/execute_cmd.c					\
+		src/tokens/ft_verifying_argument.c			\
+		src/heredoc/heredoc.c				\
+		src/heredoc/verifying.c				\
+		src/tokens/return_str.c				\
+		src/tokens/split_advenced.c					\
+		src/tokens/split_advenced2.c				\
+		src/tokens/gettokens.c				\
+		src/tokens/process_tokens.c		\
+		src/pipe/minipipe.c						\
+		src/env/env_to_matrix.c					\
+		src/utils/signal.c				\
+		src/builtins/ft_echo.c				\
+		src/builtins/ft_cd.c					\
+		src/builtins/ft_pwd.c				\
+		src/builtins/ft_exit.c				\
+		src/env/get_env_value.c		\
+		src/env/expand_variables.c	\
+		src/env/utils.c	\
+		src/builtins/ft_export.c			\
+		src/builtins/ft_unset.c			\
+		src/builtins/ft_env.c				\
+		src/env/ft_getenv.c			\
+		src/env/handle_export.c		\
+		src/utils/utils.c \
+		src/utils/strjoin_free.c
 
 OBJS = $(SRCS:.c=.o)
 

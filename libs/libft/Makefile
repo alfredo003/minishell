@@ -48,6 +48,7 @@ SRCS = 	ft_isalpha.c	\
 	ft_putchar_fd.c 	\
 	ft_putstr_fd.c 		\
 	ft_putendl_fd.c 	\
+	ft_strisnum.c 	\
 	ft_putnbr_fd.c
 
 
@@ -63,10 +64,10 @@ $(NAME): $(OBJS)
 	ranlib $(NAME)
 
 clean:
-	/bin/rm -f $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 

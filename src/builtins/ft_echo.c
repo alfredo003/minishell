@@ -1,45 +1,56 @@
 #include "minishell.h"
 
-static void	verifying_option(char **argument, int *i)
-{
-	int	j;
+void verifying_option(char **argument, int *i) {
+    // Loop para verificar se o argumento começa com '-n'
+    while (argument[*i] && argument[*i][0] == '-') {
+        int j = 1;  // Começa após o '-'
 
-	j = 0;
-	if (argument[1] && (argument[1][j] == '-'))
-	{
-		while (argument[1][++j])
-		{
-			if (argument[1][j] != 'n')
-			{
-				*i = 1;
-				break ;
-			}
-			else
-				*i = 2;
-		}
-	}
+        // Verifica se o argumento consiste apenas de 'n's após o '-'
+        while (argument[*i][j] == 'n') {
+            j++;
+        }
+
+        // Se o argumento for apenas uma sequência de '-n's, move para o próximo argumento
+        if (argument[*i][j] == '\0') {
+            (*i)++;
+        } else {
+            // Se o argumento contém outros caracteres além de 'n', sai do loop
+            break;
+        }
+    }
 }
 
-void	ft_echo(char **argument, t_shell *shell)
-{
-	int	i;
-	int	put_break;
-	int	n;
 
-	i = 1;
-	verifying_option(argument, &i);
-	put_break = i;
-	while (i < numb_split(argument))
-	{
-		n = -1;
-		while (argument[i][++n])
-			ft_putchar_fd(argument[i][n], STDOUT_FILENO);
-		if (argument[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		i++;
-	}
-	if (put_break == 1)
-		ft_putchar_fd('\n', STDOUT_FILENO);
-	shell->last_return = 0;
-	shell->parent = 1;
+void ft_echo(char **argument, t_shell *shell) {
+    int i = 1;  // Começa no segundo argumento, já que o primeiro é o comando 'echo'
+    int put_break = 1;  // Assume que deve imprimir nova linha por padrão
+    int n;
+
+    // Chama a função para verificar e ajustar o índice i para o próximo argumento válido
+    verifying_option(argument, &i);
+
+    // Se o índice i foi alterado, significa que foi encontrado um '-n' e não deve imprimir nova linha
+    put_break = (i == 1) ? 1 : 0;
+
+    // Loop para imprimir os argumentos a partir do índice correto
+    while (i < numb_split(argument)) {
+        n = 0;
+        while (argument[i][n]) {
+            ft_putchar_fd(argument[i][n], STDOUT_FILENO);  // Imprime cada caractere
+            n++;
+        }
+        if (argument[i + 1]) {  // Se houver mais argumentos, imprime um espaço
+            ft_putchar_fd(' ', STDOUT_FILENO);
+        }
+        i++;
+    }
+
+    // Se put_break for 1, imprime a nova linha no final
+    if (put_break == 1) {
+        ft_putchar_fd('\n', STDOUT_FILENO);
+    }
+
+    // Atualiza o estado do shell
+    shell->last_return = 0;
+    shell->parent = 1;
 }

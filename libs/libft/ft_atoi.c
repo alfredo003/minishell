@@ -1,30 +1,38 @@
-static int	ft_isdigit (int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djoao <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/16 18:30:13 by djoao             #+#    #+#             */
+/*   Updated: 2024/05/16 18:30:17 by djoao            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	atoi(const char *nptr)
-{
-	int	result;
-	int	sign;
+#include "libft.h"
 
-	result = 0;
-	sign = 1;
-	while (*nptr == ' ' || *nptr == '\t')
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	neg;
+	int	res;
+
+	i = 0;
+	neg = 1;
+	res = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (*nptr == '-')
-			sign = -1;
-		nptr++;
+		if (str[i] == '-')
+			neg *= -1;
+		i++;
 	}
-	while (*nptr != '\0' && ft_isdigit(*nptr))
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		result = result * 10 + (*nptr - '0');
-		nptr++;
+		res = (str[i] - '0') + (res * 10);
+		i++;
 	}
-	return (sign * result); 
+	return (res * neg);
 }

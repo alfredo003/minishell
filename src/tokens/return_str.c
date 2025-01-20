@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-int	ft_quote_is_closed(char *str, int i, int quote)
-{
-	while (str[++i])
-	{
-		if (str[i] == quote)
-			return (1);
-	}
-	return (0);
-}
-
 static void	return_str_auxilary(int *single_quote, int *double_quote,
 	char *ptr, int *i)
 {
@@ -17,7 +7,7 @@ static void	return_str_auxilary(int *single_quote, int *double_quote,
 	{
 		if (*double_quote == 0)
 		{
-			if (ft_quote_is_closed(ptr, *i, 34))
+			if (ft_is_closed(ptr, *i, 34))
 				*double_quote ^= 1;
 		}
 		else
@@ -27,7 +17,7 @@ static void	return_str_auxilary(int *single_quote, int *double_quote,
 	{
 		if (*single_quote == 0)
 		{
-			if (ft_quote_is_closed(ptr, *i, 39))
+			if (ft_is_closed(ptr, *i, 39))
 				*single_quote ^= 1;
 		}
 		else

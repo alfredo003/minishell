@@ -27,7 +27,7 @@ void	handle_export(char **tmp, t_env **env, t_shell *shell)
 		}
 	}
 	n = 0;
-	while (tmp[++n])
+	if (tmp[++n] && tmp[n + 1] == NULL)
 		ft_export(tmp[n], env, 0, 1);
 	(void)shell;
 }

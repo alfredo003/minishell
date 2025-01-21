@@ -27,9 +27,14 @@ int	handle_unset(char **tmp, t_env **env)
 {
 	int	n;
 
-	n = -1;
-	while (tmp[++n])
-		ft_unset(tmp[n], env);
+	n = 0;
+	if (tmp[++n] && tmp[n + 1] == NULL)
+	{
+		if (ft_isalpha(tmp[n][0]) || tmp[n][0] == '_')
+            ft_unset_non_expanded(tmp[n], env);
+        else
+            ft_unset_expanded(tmp[n], env);
+	}
 	return (0);
 }
 

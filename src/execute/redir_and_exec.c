@@ -26,7 +26,7 @@ char	**cmd_tab(t_token *tokens, int *pos_token)
 	{
 		i++;
 		j++;
-	}
+	} 
 	tab = malloc(sizeof(char *) * (j + 1));
 	if (!tab)
 		return (NULL);
@@ -64,8 +64,9 @@ void	ft_execute(t_shell *shell, int *pos_token)
 	if (ft_strlen(cmd[0]) == 0)
 	{
 		ft_putstr_fd("minishell: command '' not found\n", STDERR);
-		shell->last_return = 127;
 		shell->no_exec = 1;
+		shell->last_return = 127;
+		ft_free_matrix(cmd);
 		return ;
 	}
 	if (is_builtin(cmd[0]))

@@ -31,9 +31,9 @@ int	handle_unset(char **tmp, t_env **env)
 	if (tmp[++n] && tmp[n + 1] == NULL)
 	{
 		if (ft_isalpha(tmp[n][0]) || tmp[n][0] == '_')
-            ft_unset_non_expanded(tmp[n], env);
-        else
-            ft_unset_expanded(tmp[n], env);
+			ft_unset_non_expanded(tmp[n], env);
+		else
+			ft_unset_expanded(tmp[n], env);
 	}
 	return (0);
 }

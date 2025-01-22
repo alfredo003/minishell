@@ -125,4 +125,3 @@ void	execute_cmd(t_shell *shell, char **cmd)
 	shell->charge = 0;
 	shell->last_return = WEXITSTATUS(status);
 }
-	free(shell->tokens);

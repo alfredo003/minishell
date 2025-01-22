@@ -11,10 +11,25 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-static void	process_line(t_shell *shell, char *line)
+static void	process_and_validate_line(t_shell *shell,
+					char *line, t_token **tokens)
 {
 	char	*str_heredoc;
 	int		verif_heredoc;
+
+	str_heredoc = NULL;
+	verif_heredoc = verifying_heredoc(shell, *tokens, &str_heredoc);
+	dup_tokens(shell, *tokens, str_heredoc);
+	if (verif_heredoc == 258 || !verifying_argument(shell))
+	{
+		shell->last_return = 258;
+		ft_free_tokens(*tokens);
+		return ;
+	}
+}
+
+static void	process_line(t_shell *shell, char *line)
+{
 	t_token	*tokens;
 
 	line = ft_strtrim(line, " ");
@@ -28,22 +43,13 @@ static void	process_line(t_shell *shell, char *line)
 	{
 		ft_free(line, 1);
 		shell->last_return = 1;
-		return;
-	}
-	str_heredoc = NULL;
-	verif_heredoc = verifying_heredoc(shell, tokens, &str_heredoc);
-	dup_tokens(shell, tokens, str_heredoc);
-	if (verif_heredoc == 258 || !verifying_argument(shell))
-	{
-		shell->last_return = 258;
 		return ;
 	}
-	if (!verifying_argument(shell))
+	process_and_validate_line(shell, line, &tokens);
+	if (shell->last_return == 258)
 	{
-		shell->last_return = 258;
-		ft_free_tokens(tokens);
 		ft_free(line, 1);
-		return;
+		return ;
 	}
 	shell->charge = 1;
 	redir_and_exec(shell, 0, 0);

@@ -78,11 +78,11 @@ typedef struct s_shell
 	t_values	values;
 }	t_shell;
 
-typedef struct s_test
+typedef struct s_signal
 {
 	t_shell		*g_temp_shell;
 	int			g_redisplay;
-}	t_test;
+}	t_signal;
 
 typedef struct s_state
 {
@@ -125,6 +125,7 @@ void	ft_unset_non_expanded(char *args, t_env **env);
 void	ft_free_all(t_shell *shell);
 void	ft_free(void *ptr, int free_ptr);
 void	free_tokens(t_token *head);
+void	handle_child(t_shell *shell, char **cmd);
 
 void	free_env(t_env *head);
 void	toggle_quotes(char c, t_state *state);
@@ -149,6 +150,7 @@ char	*error_message(char *path, t_shell *shell);
 char	*heredoc(t_shell *shell, char *delimiter);
 char	*strjoin_free(char *s1, char *s2, int free_s1, int free_s2);
 char	type_str(char *str, int in_quotes);
+char	*find_executable(char *cmd, t_shell *shell, int i);
 
 size_t	count_loop(const char *s, const char *delimiter,
 			t_state *state, size_t delimiter_len);

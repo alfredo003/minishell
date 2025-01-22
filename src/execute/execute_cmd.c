@@ -41,7 +41,7 @@ void	sigquit(int sig)
 	(void)sig;
 }
 
-static char	*find_executable(char *cmd, t_shell *shell, int i)
+char	*find_executable(char *cmd, t_shell *shell, int i)
 {
 	struct stat	buffer;
 	char		**path_dirs;

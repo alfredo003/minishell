@@ -75,6 +75,7 @@ typedef struct s_shell
 	int			last_return;
 	int			no_exec;
 	int			exit_status;
+	int 	g_redisplay;
 	t_values	values;
 }	t_shell;
 
@@ -113,7 +114,7 @@ void	increment_shell_level(t_shell *shell);
 void	reset_std(t_shell *shell);
 void	close_fds(t_shell *shell);
 void	reset_fds(t_shell *shell);
-void	handle_signals(void);
+void	handle_signals(t_shell *shell);
 void	ft_unset_expanded(char *args, t_env **env);
 void	ft_unset_non_expanded(char *args, t_env **env);
 void	ft_free_all(t_shell *shell);

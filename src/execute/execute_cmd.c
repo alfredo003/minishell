@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 static int	g_redisplay = 1;
+t_shell *g_temp_shell = NULL;
 
 void	sigint_handler(int sig)
 {
@@ -22,7 +23,24 @@ void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	if (g_redisplay == 1)
 		rl_redisplay();
+	if (g_temp_shell)
+	{
+		g_temp_shell->last_return = 130;
+	}
 }
+
+void	handle_signals(t_shell *shell)
+{
+	 g_temp_shell = shell;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	sigquit(int sig)
+{
+	(void)sig;
+}
+
 
 static char	*error_message(char *path, t_shell *shell)
 {

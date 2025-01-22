@@ -64,7 +64,7 @@ void	init_struct(t_shell *shell, char **env)
 	shell->exit_status = 0;
 	shell->no_exec = 0;
 	shell->tokens = NULL;
-	handle_signals();
+	handle_signals(shell);
 }
 
 void	init_shell(t_shell *shell)

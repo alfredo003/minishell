@@ -58,8 +58,7 @@ char	type_str(char *str, int in_quotes)
 
 int	is_type(t_token token, char type)
 {
-	if (token.str && token.str[0]
-		&& token.type == type)
+	if (token.str && token.type == type)
 		return (1);
 	return (0);
 }

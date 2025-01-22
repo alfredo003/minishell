@@ -49,7 +49,7 @@ void	process_tokens(t_shell *shell, char *line, t_token *tokens)
 			i++;
 		str = return_str(line, &i, &in_quotes);
 		str = expand_variables(shell, str, 0);
-		if (str && str[0])
+		if (str)
 		{
 			tokens[j].str = ft_strdup(str);
 			tokens[j].type = type_str(str, in_quotes);

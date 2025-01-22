@@ -61,6 +61,13 @@ void	ft_execute(t_shell *shell, int *pos_token)
 	cmd = cmd_tab(shell->tokens, pos_token);
 	if (!cmd[0])
 		return ;
+	if (ft_strlen(cmd[0]) == 0)
+	{
+		ft_putstr_fd("minishell: command '' not found\n", STDERR);
+		shell->last_return = 127;
+		shell->no_exec = 1;
+		return ;
+	}
 	if (is_builtin(cmd[0]))
 		exec_builtin(cmd, shell);
 	else

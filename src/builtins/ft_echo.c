@@ -15,16 +15,24 @@
 void	verifying_option(char **argument, int *i)
 {
 	int	j;
+	int	valid_option;
 
 	while (argument[*i] && argument[*i][0] == '-')
 	{
 		j = 1;
-		while (argument[*i][j] == 'n')
+		valid_option = 1;
+		while (argument[*i][j])
+		{
+			if (argument[*i][j] != 'n')
+			{
+				valid_option = 0;
+				break ;
+			}
 			j++;
-		if (argument[*i][j] == '\0')
-			(*i)++;
-		else
+		}
+		if (!valid_option || j == 1)
 			break ;
+		(*i)++;
 	}
 }
 

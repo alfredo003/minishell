@@ -46,7 +46,13 @@ void	dup_tokens(t_shell *shell, t_token *tokens, char *str_heredoc)
 	int	i;
 
 	i = 0;
-	shell->tokens = (t_token *)malloc(sizeof(t_token) * 10000);
+
+	int te =0;
+	while(tokens[te].str)
+	{
+		te++;
+	}
+	shell->tokens = (t_token *)malloc(sizeof(t_token) * te +1);
 	if (!shell->tokens)
 		return ;
 	if (str_heredoc && str_heredoc[0])
@@ -62,6 +68,7 @@ void	dup_tokens(t_shell *shell, t_token *tokens, char *str_heredoc)
 			shell->tokens[i].type = tokens[i].type;
 			i++;
 		}
+		  
 		shell->tokens[i].str = NULL;
 	}
 }

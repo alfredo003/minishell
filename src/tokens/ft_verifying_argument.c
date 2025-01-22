@@ -23,7 +23,7 @@ static int	verifying_next_type(t_shell *shell, int i)
 				|| is_type(shell->tokens[i + 1], 'I')
 				|| is_type(shell->tokens[i + 1], 'P')))
 		{
-			ft_putstr_fd("shellshell: "
+			ft_putstr_fd("minishell: "
 				"syntax error near unexpected token1", 2);
 			if (shell->tokens[i + 1].str)
 				ft_putstr_fd(shell->tokens[i + 1].str, 2);
@@ -47,7 +47,7 @@ static int	verifying_previous_type(t_shell *shell, int i)
 			|| is_type(shell->tokens[i - 1], 'I')
 			|| is_type(shell->tokens[i - 1], 'P'))
 		{
-			ft_putstr_fd("shellshell: "
+			ft_putstr_fd("minishell: "
 				"syntax error near unexpected token ", 2);
 			ft_putstr_fd(shell->tokens[i].str, 2);
 			ft_putstr_fd("'\n", 2);

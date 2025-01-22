@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-static void	process_and_validate_line(t_shell *shell,
-					char *line, t_token **tokens)
+static void	process_and_validate_line(t_shell *shell, t_token **tokens)
 {
 	char	*str_heredoc;
 	int		verif_heredoc;
@@ -45,7 +44,7 @@ static void	process_line(t_shell *shell, char *line)
 		shell->last_return = 1;
 		return ;
 	}
-	process_and_validate_line(shell, line, &tokens);
+	process_and_validate_line(shell, &tokens);
 	if (shell->last_return == 258)
 	{
 		ft_free(line, 1);

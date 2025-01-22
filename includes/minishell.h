@@ -75,9 +75,14 @@ typedef struct s_shell
 	int			last_return;
 	int			no_exec;
 	int			exit_status;
-	int 	g_redisplay;
 	t_values	values;
 }	t_shell;
+
+typedef struct s_test
+{
+	t_shell		*g_temp_shell;
+	int			g_redisplay;
+}	t_test;
 
 typedef struct s_state
 {
@@ -140,6 +145,7 @@ char	*my_strndup(const char *s, size_t n);
 char	**cmd_tab(t_token *tokens, int *pos_token);
 char	*get_env_value(t_shell *shell, char *input, int *n);
 char	**allocate_result(size_t count);
+char	*error_message(char *path, t_shell *shell);
 char	*heredoc(t_shell *shell, char *delimiter);
 char	*strjoin_free(char *s1, char *s2, int free_s1, int free_s2);
 char	type_str(char *str, int in_quotes);

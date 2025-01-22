@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-static int	g_redisplay = 1;
-t_shell *g_temp_shell = NULL;
+static t_signal	g_signal;
 
 void	sigint_handler(int sig)
 {
@@ -21,17 +20,18 @@ void	sigint_handler(int sig)
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	if (g_redisplay == 1)
+	if (g_signal.g_redisplay == 1)
 		rl_redisplay();
-	if (g_temp_shell)
+	if (g_signal.g_temp_shell)
 	{
-		g_temp_shell->last_return = 130;
+		g_signal.g_temp_shell->last_return = 130;
 	}
 }
 
 void	handle_signals(t_shell *shell)
 {
-	 g_temp_shell = shell;
+	g_signal.g_temp_shell = shell;
+	g_signal.g_redisplay = 1;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -39,34 +39,6 @@ void	handle_signals(t_shell *shell)
 void	sigquit(int sig)
 {
 	(void)sig;
-}
-
-
-static char	*error_message(char *path, t_shell *shell)
-{
-	DIR	*folder;
-	int	fd;
-
-	fd = open(path, O_WRONLY);
-	folder = opendir(path);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(path, 2);
-	if (ft_strchr(path, '/') == NULL)
-		ft_putendl_fd(": command not found", 2);
-	else if (fd == -1 && folder == NULL)
-		ft_putendl_fd(": No such file or directory", 2);
-	else if (fd == -1 && folder != NULL)
-		ft_putendl_fd(": is a directory", 2);
-	else if (fd != -1 && folder == NULL)
-		ft_putendl_fd(": Permission denied", 2);
-	if (ft_strchr(path, '/') == NULL || (fd == -1 && folder == NULL))
-		shell->last_return = 127;
-	else
-		shell->last_return = 126;
-	if (folder)
-		closedir(folder);
-	ft_close(fd);
-	return (NULL);
 }
 
 static char	*find_executable(char *cmd, t_shell *shell, int i)
@@ -97,26 +69,6 @@ static char	*find_executable(char *cmd, t_shell *shell, int i)
 	return (NULL);
 }
 
-void	handle_child(t_shell *shell, char **cmd)
-{
-	char	*cmd_path;
-	char	**env_matrix;
-
-	cmd_path = find_executable(cmd[0], shell, -1);
-	if (cmd_path)
-	{
-		env_matrix = env_to_matrix(shell->env, 0, 0);
-		execve(cmd_path, cmd, env_matrix);
-		ft_free_matrix(env_matrix);
-	}
-	else
-	{
-		error_message(cmd[0], shell);
-		shell->parent = 0;
-	}
-	ft_free(cmd_path, 1);
-}
-
 void	execute_cmd(t_shell *shell, char **cmd)
 {
 	int		status;
@@ -135,9 +87,9 @@ void	execute_cmd(t_shell *shell, char **cmd)
 	}
 	else
 	{
-		g_redisplay = 0;
+		g_signal.g_redisplay = 0;
 		waitpid(pid, &status, 0);
-		g_redisplay = 1;
+		g_signal.g_redisplay = 1;
 		signal(SIGQUIT, old_sigquit);
 	}
 	shell->charge = 0;

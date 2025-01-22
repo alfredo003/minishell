@@ -26,7 +26,7 @@ char	**cmd_tab(t_token *tokens, int *pos_token)
 	{
 		i++;
 		j++;
-	} 
+	}
 	tab = malloc(sizeof(char *) * (j + 1));
 	if (!tab)
 		return (NULL);
